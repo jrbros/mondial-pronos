@@ -24,5 +24,7 @@ services:
             - NODE_ENV=development
         volumes:
             - ./:/mondial-pronos
+        ports:
+            - "9009:9009"
         working_dir: /mondial-pronos
         command: npm run storybook
