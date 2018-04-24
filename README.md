@@ -28,3 +28,21 @@ npm test
 npm run lint
 npm run storybook
 ```
+
+### firebase
+
+A firebase functions development env is available.
+
+Before to use it you need to generate a login file:
+
+```
+docker-compose -v ~/.config/configstore/:/root/.config/configstore/ run firebase sh -c "firebase login --no-localhost"
+mkdir -p ~/.config/configstore/@google-cloud/functions-emulator
+echo '{"bindHost": "0.0.0.0"}' > ~/.config/configstore/@google-cloud/functions-emulator/config.json
+```
+
+Then you can use the service: `docker-compose up firebase`.
+
+The api is available at `http://localhost:5000/mondial-pronos/us-central1/api/graphql`.
+
+The web ui (graphiql) is available at `http://localhost:5000/mondial-pronos/us-central1/api/graphiql`.
