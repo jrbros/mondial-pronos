@@ -29,7 +29,7 @@ services:
         working_dir: /mondial-pronos
         command: npm run storybook
     firebase:
-        image: "node:8.9"
+        image: "node:6.11"
         environment:
             - NODE_ENV=development
         volumes:
@@ -40,8 +40,7 @@ services:
             - "5000:5000"
         command: >
             sh -c '
-                npm i -g firebase-tools &&
-                cd functions &&
+                cd firebase &&
                 npm install && 
                 npm run serve
             '

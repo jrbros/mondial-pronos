@@ -2,32 +2,60 @@
 
 ## Development
 
-The project contains:
+The project contains multiple development services:
 
-*   A development server (watching files)
+*   a development server (watching files)
 *   jest to run unit tests (watching files)
 *   eslint to run linter
 *   storybook (watching files)
+*   a firebase development server
 
-The development server is available at `127.0.0.1:3000`.
-The storybook interface is available at `127.0.0.1:9009`.
+You can launch these services with docker-compose, but you can also use directly npm (if you have the good npm versions).
 
-In order to develop you can use docker-compose (you need both docker and docker-ompose):
+**With docker-compose**
 
-```
-docker-compose run dev npm install  # Dependencies installation
-docker-compose up dev test storybook
-```
+First of all you need to install `node_modules`:
+`docker-compose run dev npm install`
 
-Or if you have nodejs installed on your computer, you can use npm:
+Then you can launch the services: `docker-compose up` (or `docker-compose up dev test lint storybook firebase`)
 
-```
-npm install
-npm dev
+**With npm**
+
+First of all you need to install `node_modules`: `npm install`
+
+Then you can launch the npm scripts:
+
+````
+npm start
 npm test
 npm run lint
 npm run storybook
 ```
+
+### development
+
+You can launch the development server like that `docker-compose up dev` or `npm start`.
+
+The webapp is available at `127.0.0.1:3000` and watch files in `src/` folder.
+
+### storybook
+
+You can launch the storybook server like that `docker-compose up storybook` or `npm run storybook`.
+
+The storybook interface is available at `127.0.0.1:9009`.
+
+Stories are written in `src/__stories__/`.
+
+### test
+
+You can launch the unit tests (using jest) like that `docker-compose up test` or `npm test`.
+
+The tests used snapshots and watch files.
+
+Tests are written in `src/__tests__/`.
+
+If you need to rebuild snapshots, use `npm run dev` then press `u`.
+
 
 ### firebase
 
@@ -46,3 +74,4 @@ Then you can use the service: `docker-compose up firebase`.
 The api is available at `http://localhost:5000/mondial-pronos/us-central1/api/graphql`.
 
 The web ui (graphiql) is available at `http://localhost:5000/mondial-pronos/us-central1/api/graphiql`.
+````
