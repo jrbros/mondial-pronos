@@ -61,10 +61,10 @@ function getMatches() {
                 phaseDom.children(".fi-mu").each((__, matchElem) => {
                     const matchDom = $(matchElem);
                     const match = getMatchFromDom(matchDom, phase);
-                    matchs[match.id] = match;
+                    matches[match.id] = match;
                 });
             });
-            console.log(JSON.stringify(phases));
+            console.log(JSON.stringify(matches));
         })
         .catch(err => console.error(err));
 }
