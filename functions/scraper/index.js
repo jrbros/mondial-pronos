@@ -5,46 +5,46 @@ const ROOT_URL = "https://www.fifa.com";
 const MATCHES_URL = `${ROOT_URL}/worldcup/matches`;
 const TEAMS_URL = `${ROOT_URL}/worldcup/teams`;
 
-function getPhaseNameFromDom(dom) {
-    if (dom.data("idstage")) {
-        return dom
+function getPhaseNameFromDom(matchDom, phaseDom) {
+    if (phaseDom.data("idstage")) {
+        return phaseDom
             .find(".fi-mu-list__head")
             .text()
             .replace(/[\s\n\r]+/g, " ")
             .trim();
     }
-    return dom
+    return matchDom
         .find(".fi__info__group")
         .text()
         .replace(/[\s\n\r]+/g, " ")
         .trim();
 }
 
-function getMatchFromDom(dom, phase) {
+function getMatchFromDom(matchDom, phaseDom) {
     const match = {
-        id: dom.data("id"),
-        date: dom.find(".fi-mu__info__datetime").data("utcdate"),
-        home: dom.find(".home").data("team-id"),
-        away: dom.find(".away").data("team-id"),
+        id: matchDom.data("id"),
+        date: matchDom.find(".fi-mu__info__datetime").data("utcdate"),
+        home: matchDom.find(".home").data("team-id"),
+        away: matchDom.find(".away").data("team-id"),
         home_score: null,
         away_score: null,
-        phase: phase
+        phase: getPhaseNameFromDom(matchDom, phaseDom)
     };
-    match.is_known = match.home && match.away;
+    match.is_known = !!match.home && !!match.away;
     match.is_finished = match.home_score !== null && match.away_score !== null;
     return match;
 }
 
-function getTeamFromDom(dom) {
+function getTeamFromDom(teamDom) {
     return {
-        id: /team\=(.*?)\/index/i.exec(dom.attr("href"))[1],
-        name: dom
+        id: /team\=(.*?)\/index/i.exec(teamDom.attr("href"))[1],
+        name: teamDom
             .find(".team-name")
             .text()
             .replace(/[\s\n\r]+/g, " ")
             .trim(),
-        info_url: `${ROOT_URL}${dom.attr("href")}`,
-        flag_url: dom.find(".flag").attr("src")
+        info_url: `${ROOT_URL}${teamDom.attr("href")}`,
+        flag_url: teamDom.find(".flag").attr("src")
     };
 }
 
@@ -57,10 +57,9 @@ function getMatches() {
 
             $(".fi-mu-list").each((_, phaseElem) => {
                 const phaseDom = $(phaseElem);
-                const phase = getPhaseNameFromDom(phaseDom);
                 phaseDom.children(".fi-mu").each((__, matchElem) => {
                     const matchDom = $(matchElem);
-                    const match = getMatchFromDom(matchDom, phase);
+                    const match = getMatchFromDom(matchDom, phaseDom);
                     matches[match.id] = match;
                 });
             });
