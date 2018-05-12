@@ -64,7 +64,7 @@ A firebase functions development env is available.
 Before to use it you need to generate a login file:
 
 ```
-docker-compose -v ~/.config/configstore/:/root/.config/configstore/ run firebase sh -c "firebase login --no-localhost"
+docker-compose run -v ~/.config/configstore/:/root/.config/configstore/ firebase sh -c "npm i -g firebase-tools && firebase login --no-localhost"
 mkdir -p ~/.config/configstore/@google-cloud/functions-emulator
 echo '{"bindHost": "0.0.0.0"}' > ~/.config/configstore/@google-cloud/functions-emulator/config.json
 ```
