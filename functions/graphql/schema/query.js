@@ -1,14 +1,10 @@
 const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const db = require("../../db").db;
 
-admin.initializeApp();
-
-const db = admin.database();
 const ref = db.ref("/knockout");
 
 const Query = {
     matchs() {
-        console.log("BANZAIE");
         return ref
             .child("round_16")
             .child("matches")

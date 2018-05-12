@@ -67,7 +67,7 @@ function getMatches() {
                     matches[match.id] = match.content;
                 });
             });
-            
+
             return matches;
         })
         .catch(err => console.error(err));
@@ -85,15 +85,10 @@ function getTeams() {
                 const team = getTeamFromDom(teamDom);
                 teams[team.id] = team.content;
             });
-            
+
             return teams;
         })
         .catch(err => console.error(err));
-}
-
-function () {
-    getMatches();
-    getTeams();
 }
 
 module.exports = {
