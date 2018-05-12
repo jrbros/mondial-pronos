@@ -8,13 +8,14 @@ const Query = {
         return ref
             .orderByChild("date")
             .once("value")
-            .then(data =>
-                Object.entries(data.val()).map(item => {
-                    const match = item[0];
-                    match.id = item[1];
+            .then(data => {
+                const matches = data.val();
+                return Object.keys(matches).map(id => {
+                    const match = matches[id];
+                    match.id = id;
                     return match;
-                })
-            )
+                });
+            })
             .catch(err => console.error("ERROR", err));
     },
 
