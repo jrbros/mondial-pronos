@@ -13,5 +13,5 @@ function hydrateDB() {
 
 module.exports = {
     db: db,
-    hydrateDB: hytrateDB
+    hydrateDB: hydrateDB
 };
