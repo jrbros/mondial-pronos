@@ -1,5 +1,3 @@
-import { setInterval } from "timers";
-
 const functions = require("firebase-functions");
 const initGraphQLServer = require("./graphql");
 const hydrateDB = require("./db").hydrateDB;

@@ -1,12 +1,10 @@
-import { ADDRGETNETWORKPARAMS } from "dns";
-
 const functions = require("firebase-functions");
 const db = require("../../db").db;
 
 const ref = db.ref("/matches");
 
 const Query = {
-    matchs() {
+    matches() {
         return ref
             .orderBy("date")
             .once("value")
