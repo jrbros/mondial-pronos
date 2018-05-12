@@ -2,17 +2,29 @@ const { makeExecutableSchema } = require("graphql-tools");
 const Query = require("./query.js");
 
 const schema = `
-type Match {
-  name: String!
-  date: String
-  finished: Boolean
-  home_team: Int
-  away_team: Int
-}
-type Query {
-  matchs: [Match],
-  match(name: String!): Match
-}
+    type Team {
+        id: String!
+        flag_url: String
+        info_url: String
+        name: String
+    }
+
+    type Match {
+        id: String!
+        date: String
+        is_finished: Boolean
+        is_known: Boolean
+        home: Team
+        away: Team
+        home_score: Int
+        away_score: Int
+        phase: String
+    }
+
+    type Query {
+        matches: [Match],
+        match(id: String!): Match
+    }
 `;
 
 module.exports = makeExecutableSchema({
