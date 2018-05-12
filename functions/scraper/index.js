@@ -7,13 +7,13 @@ const TEAMS_URL = `${ROOT_URL}/worldcup/teams`;
 
 function getPhaseNameFromDom(dom) {
     if (dom.data("idstage")) {
-        return phase
+        return dom
             .find(".fi-mu-list__head")
             .text()
             .replace(/[\s\n\r]+/g, " ")
             .trim();
     }
-    return phase
+    return dom
         .find(".fi__info__group")
         .text()
         .replace(/[\s\n\r]+/g, " ")
@@ -23,12 +23,12 @@ function getPhaseNameFromDom(dom) {
 function getMatchFromDom(dom, phase) {
     const match = {
         id: dom.data("id"),
-        date: match.find(".fi-mu__info__datetime").data("utcdate"),
+        date: dom.find(".fi-mu__info__datetime").data("utcdate"),
         home: dom.find(".home").data("team-id"),
         away: dom.find(".away").data("team-id"),
         home_score: null,
         away_score: null,
-        phase
+        phase: phase
     };
     match.is_known = match.home && match.away;
     match.is_finished = match.home_score !== null && match.away_score !== null;
@@ -37,7 +37,7 @@ function getMatchFromDom(dom, phase) {
 
 function getTeamFromDom(dom) {
     return {
-        id: /team\=(.*?)\/index/i.exec(dom.attr("href")),
+        id: /team\=(.*?)\/index/i.exec(dom.attr("href"))[1],
         name: dom
             .find(".team-name")
             .text()
