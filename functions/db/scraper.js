@@ -67,7 +67,8 @@ function getMatches() {
                     matches[match.id] = match.content;
                 });
             });
-            console.log(JSON.stringify(matches));
+            
+            return matches;
         })
         .catch(err => console.error(err));
 }
@@ -84,14 +85,18 @@ function getTeams() {
                 const team = getTeamFromDom(teamDom);
                 teams[team.id] = team.content;
             });
-            console.log(JSON.stringify(teams));
+            
+            return teams;
         })
         .catch(err => console.error(err));
 }
 
-function scrapeFIFAWebsite() {
+function () {
     getMatches();
     getTeams();
 }
 
-module.exports = scrapeFIFAWebsite;
+module.exports = {
+    getMatches,
+    getTeams
+};
