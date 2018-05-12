@@ -22,7 +22,6 @@ function getPhaseNameFromDom(matchDom, phaseDom) {
 
 function getMatchFromDom(matchDom, phaseDom) {
     const match = {
-        id: matchDom.data("id"),
         date: matchDom.find(".fi-mu__info__datetime").data("utcdate"),
         home: matchDom.find(".home").data("team-id"),
         away: matchDom.find(".away").data("team-id"),
@@ -30,14 +29,15 @@ function getMatchFromDom(matchDom, phaseDom) {
         away_score: null,
         phase: getPhaseNameFromDom(matchDom, phaseDom)
     };
+    match.home = match.home ? match.home.toString() : null;
+    match.away = match.away ? match.away.toString() : null;
     match.is_known = !!match.home && !!match.away;
     match.is_finished = match.home_score !== null && match.away_score !== null;
-    return match;
+    return { id: matchDom.data("id").toString(), content: match };
 }
 
 function getTeamFromDom(teamDom) {
-    return {
-        id: /team\=(.*?)\/index/i.exec(teamDom.attr("href"))[1],
+    const team = {
         name: teamDom
             .find(".team-name")
             .text()
@@ -45,6 +45,10 @@ function getTeamFromDom(teamDom) {
             .trim(),
         info_url: `${ROOT_URL}${teamDom.attr("href")}`,
         flag_url: teamDom.find(".flag").attr("src")
+    };
+    return {
+        id: /team\=(.*?)\/index/i.exec(teamDom.attr("href"))[1].toString(),
+        content: team
     };
 }
 
@@ -60,7 +64,7 @@ function getMatches() {
                 phaseDom.children(".fi-mu").each((__, matchElem) => {
                     const matchDom = $(matchElem);
                     const match = getMatchFromDom(matchDom, phaseDom);
-                    matches[match.id] = match;
+                    matches[match.id] = match.content;
                 });
             });
             console.log(JSON.stringify(matches));
@@ -78,7 +82,7 @@ function getTeams() {
             $(".team").each((_, teamElem) => {
                 const teamDom = $(teamElem);
                 const team = getTeamFromDom(teamDom);
-                teams[team.id] = team;
+                teams[team.id] = team.content;
             });
             console.log(JSON.stringify(teams));
         })
