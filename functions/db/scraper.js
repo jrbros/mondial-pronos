@@ -53,7 +53,7 @@ function getTeamFromDom(teamDom) {
 }
 
 function getMatches() {
-    fetch(MATCHES_URL)
+    return fetch(MATCHES_URL)
         .then(response => response.text())
         .then(html => {
             const $ = cheerio.load(html);
@@ -74,7 +74,7 @@ function getMatches() {
 }
 
 function getTeams() {
-    fetch(TEAMS_URL)
+    return fetch(TEAMS_URL)
         .then(response => response.text())
         .then(html => {
             const $ = cheerio.load(html);
