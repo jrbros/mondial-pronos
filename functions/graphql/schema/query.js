@@ -1,26 +1,41 @@
 const functions = require("firebase-functions");
 const db = require("../../db").db;
 
-const ref = db.ref("matches");
+const matchesRef = db.ref("matches");
+const teamsRef = db.ref("teams");
 
 const Query = {
     matches() {
-        return ref
+        return matchesRef
             .orderByChild("date")
             .once("value")
             .then(data => {
                 const matches = data.val();
-                return Object.keys(matches).map(id => {
-                    const match = matches[id];
-                    match.id = id;
-                    return match;
-                });
+                return Promise.all(
+                    Object.keys(matches).map(id => {
+                        const match = matches[id];
+                        match.id = id;
+                        return Promise.all([
+                            teamsRef
+                                .child(match.home)
+                                .once("value")
+                                .then(home => home.val()),
+                            teamsRef
+                                .child(match.away)
+                                .once("value")
+                                .then(away => away.val())
+                        ]).then(values => {
+                            match.home = values[0];
+                            match.away = values[1];
+                        });
+                    })
+                );
             })
             .catch(err => console.error("ERROR", err));
     },
 
     match(_, params) {
-        return ref
+        return matchesRef
             .child(params.id)
             .once("value")
             .then(data => data.val())
