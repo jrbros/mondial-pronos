@@ -15,19 +15,22 @@ const Query = {
                     Object.keys(matches).map(id => {
                         const match = matches[id];
                         match.id = id;
-                        return Promise.all([
-                            teamsRef
-                                .child(match.home)
-                                .once("value")
-                                .then(home => home.val()),
-                            teamsRef
-                                .child(match.away)
-                                .once("value")
-                                .then(away => away.val())
-                        ]).then(values => {
-                            match.home = values[0];
-                            match.away = values[1];
-                        });
+                        if (match.is_known) {
+                            return Promise.all([
+                                teamsRef
+                                    .child(match.home)
+                                    .once("value")
+                                    .then(home => home.val()),
+                                teamsRef
+                                    .child(match.away)
+                                    .once("value")
+                                    .then(away => away.val())
+                            ]).then(values => {
+                                match.home = values[0];
+                                match.away = values[1];
+                            });
+                        }
+                        return match;
                     })
                 );
             })
