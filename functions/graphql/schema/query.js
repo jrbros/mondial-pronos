@@ -1,14 +1,20 @@
 const functions = require("firebase-functions");
 const db = require("../../db").db;
 
-const ref = db.ref("/matches");
+const ref = db.ref("matches");
 
 const Query = {
     matches() {
         return ref
-            .orderBy("date")
+            .orderByChild("date")
             .once("value")
-            .then(data => data.val())
+            .then(data =>
+                Object.entries(data.val()).map(item => {
+                    const match = item[0];
+                    match.id = item[1];
+                    return match;
+                })
+            )
             .catch(err => console.error("ERROR", err));
     },
 
