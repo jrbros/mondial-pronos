@@ -32,6 +32,7 @@ function fetchMatch(snapshot) {
 
 function fetchMatches(snapshot) {
     const matches = [];
+    console.log("ALLOOOOOOO");
     snapshot.forEach(childSnapshot => {
         matches.push(fetchMatch(childSnapshot));
     });
@@ -43,16 +44,16 @@ const Query = {
         return matchesRef
             .orderByChild("date")
             .once("value")
-            .then(fetchMatches)
-            .catch(console.error);
+            .then(snapshot => fetchMatches(snapshot))
+            .catch(err => console.error(err));
     },
 
     match(_, params) {
         return matchesRef
             .child(params.id)
             .once("value")
-            .then(fetchMatch)
-            .catch(console.error);
+            .then(snapshot => fetchMatch(snapshot))
+            .catch(err => console.error(err));
     }
 };
 
