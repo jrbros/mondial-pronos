@@ -25,7 +25,7 @@ First of all you need to install `node_modules`: `npm install`
 
 Then you can launch the npm scripts:
 
-````
+```
 npm start
 npm test
 npm run lint
@@ -56,7 +56,6 @@ Tests are written in `src/__tests__/`.
 
 If you need to rebuild snapshots, use `npm run dev` then press `u`.
 
-
 ### firebase
 
 A firebase functions development env is available.
@@ -64,6 +63,7 @@ A firebase functions development env is available.
 Before to use it you need to generate a login file:
 
 ```
+docker-compose run firebase npm install
 docker-compose run -v ~/.config/configstore/:/root/.config/configstore/ firebase sh -c "npm i -g firebase-tools && firebase login --no-localhost"
 mkdir -p ~/.config/configstore/@google-cloud/functions-emulator
 echo '{"bindHost": "0.0.0.0"}' > ~/.config/configstore/@google-cloud/functions-emulator/config.json
@@ -74,4 +74,9 @@ Then you can use the service: `docker-compose up firebase`.
 The api is available at `http://localhost:5000/mondial-pronos/us-central1/api/graphql`.
 
 The web ui (graphiql) is available at `http://localhost:5000/mondial-pronos/us-central1/api/graphiql`.
-````
+
+In order to deploy the application use:
+
+```
+docker-compose run firebase npm run deploy
+```

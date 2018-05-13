@@ -35,12 +35,11 @@ services:
         volumes:
             - ./:/mondial-pronos
             - ~/.config/configstore/:/root/.config/configstore/
-        working_dir: /mondial-pronos
+        working_dir: /mondial-pronos/functions
         ports:
             - "0.0.0.0:5000:5000"
         command: >
             sh -c '
-                cd functions &&
                 npm install && 
                 npm run serve
             '
