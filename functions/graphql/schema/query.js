@@ -34,6 +34,7 @@ function fetchMatches(snapshot) {
     const matches = [];
     console.log("ALLOOOOOOO");
     snapshot.forEach(childSnapshot => {
+        console.log("YOOOOO");
         matches.push(fetchMatch(childSnapshot));
     });
     return Promise.all(matches);
@@ -44,16 +45,16 @@ const Query = {
         return matchesRef
             .orderByChild("date")
             .once("value")
-            .then(snapshot => fetchMatches(snapshot))
-            .catch(err => console.error(err));
+            .then(fetchMatches)
+            .catch(console.error);
     },
 
     match(_, params) {
         return matchesRef
             .child(params.id)
             .once("value")
-            .then(snapshot => fetchMatch(snapshot))
-            .catch(err => console.error(err));
+            .then(fetchMatch)
+            .catch(console.error);
     }
 };
 
