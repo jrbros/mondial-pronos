@@ -25,16 +25,14 @@ function fetchMatchTeams(match) {
 }
 
 function fetchMatch(snapshot) {
-    const match = childSnapshot.val();
-    match.id = childSnapshot.key;
+    const match = snapshot.val();
+    match.id = snapshot.key;
     return fetchMatchTeams(match);
 }
 
 function fetchMatches(snapshot) {
     const matches = [];
-    console.log("ALLOOOOOOO");
     snapshot.forEach(childSnapshot => {
-        console.log("YOOOOO");
         matches.push(fetchMatch(childSnapshot));
     });
     return Promise.all(matches);

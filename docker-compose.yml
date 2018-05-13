@@ -39,8 +39,4 @@ services:
         ports:
             - "0.0.0.0:5000:5000"
         command: >
-            sh -c '
-                rm -rf node_modules *log tmp* &&
-                npm install && 
-                npm run serve
-            '
+            npm run serve
