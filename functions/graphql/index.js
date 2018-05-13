@@ -16,7 +16,7 @@ function initGraphQLServer() {
     graphQLServer.use(
         "/graphiql",
         graphiqlExpress({
-            endpointURL: "/mondial-pronos/us-central1/api/graphql"
+            endpointURL: "/api/graphql" // add /mondial-pronos/us-central1/api in dev
         })
     );
 
