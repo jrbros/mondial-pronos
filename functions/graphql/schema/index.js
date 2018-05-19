@@ -21,9 +21,42 @@ const schema = `
         phase: String
     }
 
+    type Bet {
+        match_id: String!
+        home_score: Int
+        away_score: Int
+        score: Int
+    }
+
+    input BetInput {
+        match_id: String!
+        home_score: Int
+        away_score: Int
+    }
+
+    type User {
+        id: String!
+        name: String
+        avatar_url: String
+        score: Int
+        bets: [Bet]
+    }
+
+    input UserInput {
+        name: String
+        avatar_url: String
+    }
+
+    type Mutation {
+        createBet(user_id: String!, input: BetInput)
+        createUser(input: UserInput)
+    }
+
     type Query {
-        matches: [Match],
-        match(id: String!): Match
+        getMatches: [Match],
+        getMatch(id: String!): Match
+        getUsers: [User]
+        getUser(id: String!): User
     }
 `;
 
