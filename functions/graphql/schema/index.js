@@ -1,35 +1,35 @@
 const { makeExecutableSchema } = require("graphql-tools");
 const Query = require("./query.js");
+const Mutation = require("./mutation.js");
 
 const schema = `
     type Team {
         id: String!
-        flag_url: String
-        info_url: String
+        flagUrl: String
+        infoUrl: String
         name: String
     }
 
     type Match {
         id: String!
         date: String
-        is_finished: Boolean
-        is_known: Boolean
+        isFinished: Boolean
+        isKnown: Boolean
         home: Team
         away: Team
-        home_score: Int
-        away_score: Int
+        homeScore: Int
+        awayScore: Int
         phase: String
     }
 
     type Bet {
-        match_id: String!
-        home_score: Int
-        away_score: Int
+        matchId: String!
+        homeScore: Int
+        awayScore: Int
         score: Int
     }
 
     input BetInput {
-        match_id: String!
         home_score: Int
         away_score: Int
     }
@@ -37,18 +37,18 @@ const schema = `
     type User {
         id: String!
         name: String
-        avatar_url: String
+        avatarUrl: String
         score: Int
         bets: [Bet]
     }
 
     input UserInput {
         name: String
-        avatar_url: String
+        avatarUrl: String
     }
 
     type Mutation {
-        createBet(user_id: String!, input: BetInput)
+        createBet(userId: String!, matchId: String!, input: BetInput)
         createUser(input: UserInput)
     }
 
