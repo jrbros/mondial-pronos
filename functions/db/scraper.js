@@ -25,14 +25,14 @@ function getMatchFromDom(matchDom, phaseDom) {
         date: matchDom.find(".fi-mu__info__datetime").data("utcdate"),
         home: matchDom.find(".home").data("team-id"),
         away: matchDom.find(".away").data("team-id"),
-        home_score: null,
-        away_score: null,
+        homeScore: null,
+        awayScore: null,
         phase: getPhaseNameFromDom(matchDom, phaseDom)
     };
     match.home = match.home ? match.home.toString() : null;
     match.away = match.away ? match.away.toString() : null;
-    match.is_known = !!match.home && !!match.away;
-    match.is_finished = match.home_score !== null && match.away_score !== null;
+    match.isKnown = !!match.home && !!match.away;
+    match.isFinished = match.homeScore !== null && match.awayScore !== null;
     return { id: matchDom.data("id").toString(), content: match };
 }
 
@@ -43,8 +43,8 @@ function getTeamFromDom(teamDom) {
             .text()
             .replace(/[\s\n\r]+/g, " ")
             .trim(),
-        info_url: `${ROOT_URL}${teamDom.attr("href")}`,
-        flag_url: teamDom.find(".flag").attr("src")
+        infoUrl: `${ROOT_URL}${teamDom.attr("href")}`,
+        flagUrl: teamDom.find(".flag").attr("src")
     };
     return {
         id: /team\=(.*?)\/index/i.exec(teamDom.attr("href"))[1].toString(),

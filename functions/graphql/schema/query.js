@@ -3,6 +3,7 @@ const db = require("../../db").db;
 
 const matchesRef = db.ref("matches");
 const teamsRef = db.ref("teams");
+const usersRef = db.ref("users");
 
 function fetchMatchTeams(match) {
     if (match.is_known) {
@@ -38,8 +39,38 @@ function fetchMatches(snapshot) {
     return Promise.all(matches);
 }
 
+function fetchUser(snapshot) {
+    const match = snapshot.val();
+    match.id = snapshot.key;
+    return user;
+}
+
+function fetchMatches(snapshot) {
+    const matches = [];
+    snapshot.forEach(childSnapshot => {
+        matches.push(fetchUser(childSnapshot));
+    });
+    return matches;
+}
+
 const Query = {
-    matches() {
+    getUser(_, params) {
+        return usersRef
+            .child(params.id)
+            .once("value")
+            .then(fetchUser)
+            .catch(console.error);
+    },
+
+    getUsers() {
+        return usersRef
+            .orderByChild("score")
+            .once("value")
+            .then(fetchUsers)
+            .catch(console.error);
+    },
+
+    getMatches() {
         return matchesRef
             .orderByChild("date")
             .once("value")
@@ -47,7 +78,7 @@ const Query = {
             .catch(console.error);
     },
 
-    match(_, params) {
+    getMatch(_, params) {
         return matchesRef
             .child(params.id)
             .once("value")
